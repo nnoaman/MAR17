@@ -1,0 +1,12 @@
+ARM_SUBSCRIPTION_ID=d6c8e3b6-467e-452e-97c9-49d9de9e37da
+sshsecret=MAR17-NOEU-DEP17-sshkey
+deployer_random_id=lM4_jw
+deployer_app_config_name=mar17noeuapc94c
+created_resource_group_name=MAR17-NOEU-DEP17-INFRASTRUCTURE
+keyvault=MAR17NOEUDEP17user94C
+environment=MAR17
+subscription=d6c8e3b6-467e-452e-97c9-49d9de9e37da
+client_id=fffb301a-0f5e-49d0-a5a5-c6cbad7adc4d
+tenant_id=c01abe72-ffef-4ecc-bda0-937975b49e6b
+STATE_SUBSCRIPTION=d6c8e3b6-467e-452e-97c9-49d9de9e37da
+step=2
