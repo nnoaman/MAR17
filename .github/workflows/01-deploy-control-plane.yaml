@@ -6,7 +6,6 @@
 
 name: Deploy Control Plane
 run-name: Deploy Control Plane by @${{ github.actor }}
-
 on:
   workflow_dispatch:
     inputs:
@@ -19,7 +18,7 @@ on:
         description: "Select the SAP Library to deploy"
         type: choice
         options:
-          - MGMT-NOEU-SAP_LIBRARY
+          - MAR17-NOEU-SAP_LIBRARY
       use_webapp:
         default: true
         description: Deploy the configuration web application infrastructure
@@ -28,12 +27,10 @@ on:
         default: false
         description: Force a re-install - may require multiple re-runs
         type: boolean
-
 permissions:
   contents: write
   id-token: write
   issues: write
-
 jobs:
   setup_deployer:
     name: Prepare the self hosted runners(s)
@@ -47,7 +44,6 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-
       # Required permissions: org level runner registration permissions
       - name: Get app token
         id: get_workflow_token
@@ -56,12 +52,10 @@ jobs:
           application_id: ${{ secrets.APPLICATION_ID }}
           application_private_key: ${{ secrets.APPLICATION_PRIVATE_KEY }}
           #organization: ${{ github.repository_owner }}
-
       - name: Azure Login
         uses: Azure/Login@v2
         with:
           creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
-
       - name: Setup deployer
         run: |
           cd ${SAP_AUTOMATION_REPO_PATH}
@@ -80,7 +74,6 @@ jobs:
           libraryconfig: ${{ inputs.library }}.tfvars
           libraryfolder: ${{ inputs.library }}
           use_webapp: ${{ inputs.use_webapp }}
-
   deploy_controlplane:
     name: Deploy the control plane
     environment: ${{ inputs.deployer }}
@@ -91,7 +84,6 @@ jobs:
     steps:
       - name: Configure Git
         run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-
       - name: Checkout the code
         uses: actions/checkout@v4
         with:
@@ -99,7 +91,6 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.ref }}
           clean: true
-
       # Required permissions: org level runner registration permissions
       - name: Get app token
         id: get_workflow_token
@@ -108,19 +99,16 @@ jobs:
           application_id: ${{ secrets.APPLICATION_ID }}
           application_private_key: ${{ secrets.APPLICATION_PRIVATE_KEY }}
           #organization: ${{ github.repository_owner }}
-
       - name: Azure Login
         uses: Azure/Login@v2
         with:
           creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
-
       - uses: flcdrg/get-azure-app-configuration-action@v4
         id: get-app-configuration
         with:
           resourceGroup: ${{ vars.APP_CONFIGURATION_RESOURCE_GROUP }}
           appConfigurationName: ${{ vars.APP_CONFIGURATION_NAME }}
           labelFilter: ${{ inputs.deployer }}
-
       - name: Deploy control plane
         run: |
           cd ${SAP_AUTOMATION_REPO_PATH}
@@ -138,7 +126,6 @@ jobs:
           libraryconfig: ${{ inputs.library }}.tfvars
           libraryfolder: ${{ inputs.library }}
           use_webapp: ${{ inputs.use_webapp }}
-
   web_app_deployment:
     if: ${{ inputs.use_webapp }}
     name: Deploy SAP configuration Web App
@@ -152,30 +139,25 @@ jobs:
         uses: Azure/Login@v2
         with:
           creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
-
       - uses: flcdrg/get-azure-app-configuration-action@v4
         id: get-app-configuration
         with:
           resourceGroup: ${{ vars.APP_CONFIGURATION_RESOURCE_GROUP }}
           appConfigurationName: ${{ vars.APP_CONFIGURATION_NAME }}
           labelFilter: ${{ inputs.deployer }}
-
       - name: Build the Configuration Web Application
         run: dotnet build ${SAP_AUTOMATION_REPO_PATH}/Webapp/SDAF/*.csproj
-
       - name: Publish the Configuration Web Application
         run: |
           dotnet publish ${SAP_AUTOMATION_REPO_PATH}/Webapp/**/*.csproj \
             --configuration Release \
             --nologo \
             --output WebApp
-
       - name: Deploy the Configuration Web Application
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.webapp_url_base }}
           package: WebApp
-
       - uses: azure/appservice-settings@v1
         with:
           app-name: ${{ env.webapp_url_base }}
@@ -208,7 +190,6 @@ jobs:
                  "slotSetting": false
              }
             ]
-
       - name: Configure Web Application Authentication
         run: |
           echo "Configure the Web Application authentication using the following script." >> "Web Application Configuration.md"
@@ -230,12 +211,10 @@ jobs:
           echo "[Access the Web App](https://${{ env.webapp_url_base }}.azurewebsites.net)" >> "Web Application Configuration.md"
           echo "" >> "Web Application Configuration.md"
           echo "Configure the Web Application authentication using the script in the artifacts or issue:" >> $GITHUB_STEP_SUMMARY
-
       - uses: actions/upload-artifact@v4
         with:
           name: "web-application-configuration-${{ github.run_number }}-${{ github.run_attempt }}"
           path: "Web Application Configuration.md"
-
       - name: Create GitHub issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
