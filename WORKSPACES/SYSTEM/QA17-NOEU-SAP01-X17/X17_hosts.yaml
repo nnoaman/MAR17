@@ -1,0 +1,104 @@
+X17_DB:
+  hosts:
+    x17dhdb01l0f0:
+      ansible_host        : 10.210.96.4
+      ansible_user        : azureadm
+      ansible_connection  : ssh
+      connection_type     : key
+      virtual_host        : x17dhdb01l0f0
+      become_user         : root
+      os_type             : linux
+      vm_name             : QA17-NOEU-SAP01-X17_x17dhdb01l0f05
+      
+      
+      
+      
+
+  vars:
+    node_tier             : hana
+    supported_tiers       : [hana]
+
+X17_SCS:
+  hosts:
+    x17scs01lf05:
+      ansible_host        : 10.210.32.5
+      ansible_user        : azureadm
+      ansible_connection  : ssh
+      connection_type     : key
+      virtual_host        : x17scs01lf05
+      become_user         : root
+      os_type             : linux
+      vm_name             : QA17-NOEU-SAP01-X17_x17scs01lf05
+      
+      
+      
+      
+
+  vars:
+    node_tier             : scs
+    supported_tiers       : [scs]
+
+X17_ERS:
+  hosts:
+  vars:
+    node_tier             : ers
+    supported_tiers       : [ers]
+
+
+X17_PAS:
+  hosts:
+    x17app01lf05:
+      ansible_host        : 10.210.32.4
+      ansible_user        : azureadm
+      ansible_connection  : ssh
+      connection_type     : key
+      virtual_host        : x17app01lf05
+      become_user         : root
+      os_type             : linux
+      vm_name             : QA17-NOEU-SAP01-X17_x17app01lf05
+      
+      
+      
+      
+
+  vars:
+    node_tier             : pas
+    supported_tiers       : [pas]
+
+X17_APP:
+  hosts:
+    x17app02lf05:
+      ansible_host        : 10.210.32.6
+      ansible_user        : azureadm
+      ansible_connection  : ssh
+      connection_type     : key
+      virtual_host        : x17app02lf05
+      become_user         : root
+      os_type             : linux
+      vm_name             : QA17-NOEU-SAP01-X17_x17app02lf05
+      
+      
+      
+      
+
+  vars:
+    node_tier             : app
+    supported_tiers       : [app]
+
+X17_WEB:
+  hosts:
+  vars:
+    node_tier             : web
+    supported_tiers       : [web]
+
+X17_OBSERVER_DB:
+  hosts:
+  vars:
+    node_tier             : observer
+    supported_tiers       : [observer]
+
+X17_ISCSI:
+  hosts:
+  vars:
+    node_tier             : iscsi
+    supported_tiers       : [iscsi]
