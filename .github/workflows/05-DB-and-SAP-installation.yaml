@@ -1,0 +1,187 @@
+---
+  # /*---------------------------------------------------------------------------8
+  # |                                                                            |
+  # |     This workflows performs the software installation                      |
+  # |                                                                            |
+  # +------------------------------------4--------------------------------------*/
+
+  name: OS configuration and SAP installation
+  run-name: OS configuration and SAP installation by @${{ github.actor }}
+
+  on:
+    workflow_dispatch:
+      inputs:
+        sap_system_configuration_name:
+          description: "SAP System configuration name (ENV-LOCA-VNET-SID)"
+          default: "DEV-WEEU-SAP01-X00"
+          required: true
+          type: string
+        workload_zone:
+          description: "Workload Environment ...)"
+          type: environment
+          required: true
+        bom_base_name:
+          description: "Bill of Materials name (BoM)"
+          required: true
+          type: choice
+          options:
+            - S42023SPS00_v0005ms (HANA_2_00_081)
+            - S42023SPS00_v0003ms (HANA_2_00_077)
+            - S42023SPS00_v0004ms (HANA_2_00_077 - dynamic)
+            - S42022SPS00_v0004ms (HANA_2_00_077 - dynamic)
+            - S42022SPS00_v0005ms (HANA_2_00_076)
+            - S42022SPS00_v0006ms (HANA_2_00_077)
+            - S42021ISS00_v0003ms (HANA_2_00_067)
+            - S42020ISS00_v0004ms (HANA_2_00_067 - dynamic)
+            - S42020SPS03_v0005ms (HANA_2_00_067)
+            - S41909SPS03_v0012ms (HANA_2_00_059 - dynamic)
+            - S41909ISS00_v0013ms (HANA_2_00_059)
+            - NW750SPS20_v0005ms (HANA_2_00_067)
+            - NW750SPS20_v0006ms (HANA_2_00_067 - dynamic)
+            - NW750SPS25_JAVA_v0001ms (HANA_2_00_067)
+            - NW752SPS09_v0002ms (HANA_2_00_067)
+            - NW750SPS25_JAVA__HANA_v0001ms (HANA_2_00_067)
+            - NW750SPS20_DB2_v0002ms (DB2_UDB_11_5)
+            - NW750_ORACLE_19_v0001ms (Oracle_19)
+            - NW750_ORACLE_19_v0002ms (Oracle_19 - Kernel 754)
+            - NW750_ORACLE_19_ASM_v0002ms (Oracle_19)
+            - NW750SPS25_JAVA_Oracle_19_00_v0001ms (Oracle_19)
+            - NW750SPS20_SYBASE_v0003ms (ASE_16_0_3)
+            - NW750_MSSQL_v0003ms (MSSQL_2019)
+            - SOLMAN_72SR2_JAVA_v0001ms (HANA_2_00_081)
+            - SOLMAN_72SR2_v0001ms (HANA_2_00_081)
+            - HANA_2_00_059_v0011ms
+            - HANA_2_00_067_v0006ms
+            - HANA_2_00_076_v0001ms
+            - HANA_2_00_077_v0002ms
+            - HANA_2_00_081_v0001ms
+            - DB2_UDB_11_5_v0001ms
+            - ORACLE_19_00_v0003ms
+            - ORACLE_19_00_ASM_v0001ms
+            - ORACLE_19_00_ORA_MSID_v0002ms
+            - MSSQLSRV_2019_v0001ms
+            - SYBASE_1603SP15_v0003ms
+        extra_params:
+          description: "Extra Parameters"
+          type: string
+          default: " "
+        base_os_configuration:
+          description: "Core Operating System Configuration"
+          type: boolean
+          default: true
+        sap_os_configuration:
+          description: "SAP Operating System Configuration"
+          type: boolean
+          default: true
+        bom_processing:
+          description: "Local Software Download"
+          type: boolean
+          default: true
+        scs_installation:
+          description: "SCS Installation & High Availability Configuration"
+          type: boolean
+          default: true
+        database_install:
+          description: "Database Installation"
+          type: boolean
+          default: true
+        db_load:
+          description: "Database Load"
+          type: boolean
+          default: true
+        high_availability_configuration:
+          description: "Database High Availability Configuration"
+          type: boolean
+          default: true
+        pas_installation:
+          description: "Primary Application Server Installation"
+          type: boolean
+          default: true
+        application_server_installation:
+          description: "Application Server Installation"
+          type: boolean
+          default: true
+        webdispatcher_installation:
+          description: "Web Dispatcher Installation"
+          type: boolean
+          default: false
+        sap_on_azure_quality_checks:
+          description: "SAP on Azure Quality Checks"
+          type: boolean
+          default: false
+        post_configuration_actions:
+          description: "Post Configuration Actions"
+          type: boolean
+          default: false
+        ams_provider:
+          description: "Configure AMS Provider"
+          type: boolean
+          default: false
+
+        # 20220929 MKD - ACSS Registration <BEGIN>
+        acss_registration:
+          description: "ACSS Registration"
+          type: boolean
+          default: true
+        acss_environment:
+          description: "ACSS Prod/NonProd"
+          type: choice
+          options:
+            - NonProd
+            - Prod
+          default: "NonProd"
+        acss_sap_product:
+          description: "System Type"
+          type: choice
+          options:
+              - S4HANA
+              - ECC
+              - Other
+          default: "S4HANA"
+        # 20220929 MKD - ACSS Registration <END>
+
+  permissions:
+    contents: write
+    id-token: write
+    issues: write
+
+  jobs:
+    sap_software_installation:
+      name: OS Configuration and SAP Installation
+      environment: ${{ inputs.workload_zone }}
+      runs-on: self-hosted
+      container:
+        image: ghcr.io/nnoaman/sap-automation:github_actions
+      steps:
+        - name: Checkout the code
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+
+        - name: Get app token
+          id: get_workflow_token
+          uses: peter-murray/workflow-application-token-action@v3
+          with:
+            application_id: ${{ secrets.APPLICATION_ID }}
+            application_private_key: ${{ secrets.APPLICATION_PRIVATE_KEY }}
+            #organization: ${{ github.repository_owner }}
+
+        - name: Azure Login
+          uses: Azure/Login@v2
+          with:
+            creds: '{"clientId":"${{ secrets.WL_ARM_CLIENT_ID }}","clientSecret":"${{ secrets.WL_ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.WL_ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.WL_ARM_TENANT_ID }}"}'
+
+        - name: OS Configuration and SAP Installation
+          run: |
+            cd ${SAP_AUTOMATION_REPO_PATH}
+            deploy/automation/05-DB-and-SAP-installation/01-DB-and-SAP-installation.sh
+          env:
+            APP_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
+            SCRIPT_PATH: ./sap-automation/deploy/pipelines/templates/*.sh
+            AZURE_CLIENT_ID: ${{ secrets.WL_ARM_CLIENT_ID }}
+            AZURE_CLIENT_SECRET: ${{ secrets.WL_ARM_CLIENT_SECRET }}
+            AZURE_TENANT_ID: ${{ secrets.WL_ARM_TENANT_ID }}
+            AZURE_SUBSCRIPTION_ID: ${{ secrets.WL_ARM_SUBSCRIPTION_ID }}
+            BOM_BASE_NAME: ${{ inputs.bom_base_name }}
+            SAP_SYSTEM_CONFIGURATION_NAME: ${{ inputs.sap_system_configuration_name }}
+            EXTRA_PARAMETERS: ${{ inputs.EXTRA_PARAMS }}
