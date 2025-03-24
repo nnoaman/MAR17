@@ -123,7 +123,7 @@
         - name: OS Configuration and SAP Installation
           run: |
             cd ${SAP_AUTOMATION_REPO_PATH}
-            deploy/automation/05-DB-and-SAP-installation/01-DB-and-SAP-installation.sh
+            deploy/automation/05-DB-and-SAP-installation/05-DB-and-SAP-installation-prepare.sh
           env:
             APP_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
             SCRIPT_PATH: ./sap-automation/deploy/pipelines/templates/*.sh
