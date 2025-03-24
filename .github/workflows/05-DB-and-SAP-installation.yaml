@@ -65,7 +65,30 @@
           description: "Extra Parameters"
           type: string
           default: " "
-
+        base_os_configuration:
+          description: "Core Operating System Configuration"
+          type: boolean
+          default: true
+        sap_os_configuration:
+          description: "SAP Operating System Configuration"
+          type: boolean
+          default: true
+        bom_processing:
+          description: "Local Software Download"
+          type: boolean
+          default: true
+        scs_installation:
+          description: "SCS Installation & High Availability Configuration"
+          type: boolean
+          default: true
+        database_install:
+          description: "Database Installation"
+          type: boolean
+          default: true
+        db_load:
+          description: "Database Load"
+          type: boolean
+          default: true
   permissions:
     contents: write
     id-token: write
