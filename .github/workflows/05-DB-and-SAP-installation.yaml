@@ -126,10 +126,10 @@
             deploy/automation/05-DB-and-SAP-installation/05-DB-and-SAP-installation-prepare.sh
           env:
             APP_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
-            #SCRIPT_PATH: ./sap-automation/deploy/pipelines/templates/*.sh
-            #AZURE_CLIENT_ID: ${{ secrets.WL_ARM_CLIENT_ID }}
-            #AZURE_CLIENT_SECRET: ${{ secrets.WL_ARM_CLIENT_SECRET }}
-            #AZURE_TENANT_ID: ${{ secrets.WL_ARM_TENANT_ID }}
+            SCRIPT_PATH: ./sap-automation/deploy/pipelines/templates/*.sh
+            AZURE_CLIENT_ID: ${{ secrets.WL_ARM_CLIENT_ID }}
+            AZURE_CLIENT_SECRET: ${{ secrets.WL_ARM_CLIENT_SECRET }}
+            AZURE_TENANT_ID: ${{ secrets.WL_ARM_TENANT_ID }}
             AZURE_SUBSCRIPTION_ID: ${{ secrets.WL_ARM_SUBSCRIPTION_ID }}
             BOM_BASE_NAME: ${{ inputs.bom_base_name }}
             SAP_SYSTEM_CONFIGURATION_NAME: ${{ inputs.sap_system_configuration_name }}
