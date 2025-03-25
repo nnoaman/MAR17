@@ -134,4 +134,5 @@
             BOM_BASE_NAME: ${{ inputs.bom_base_name }}
             SAP_SYSTEM_CONFIGURATION_NAME: ${{ inputs.sap_system_configuration_name }}
             DEPLOYER_FOLDER: ${{ vars.APP_CONFIGURATION_RESOURCE_GROUP }}
+            APP_CONFIGURATION_NAME: ${{ vars.APP_CONFIGURATION_NAME }}
             EXTRA_PARAMETERS: ${{ inputs.EXTRA_PARAMS }}
