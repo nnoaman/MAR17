@@ -146,7 +146,7 @@
             userNameSecretName: ${{ steps.preparation.outputs.USERNAME_KEY_NAME }}
             vaultName: ${{ steps.preparation.outputs.VAULT_NAME }}
             parametersFolder: ${{ steps.preparation.outputs.FOLDER }}
-            sapParams: ${ github.workspace }/WORKSPACES/SYSTEM/${{ inputs.sap_system_configuration_name }}/artifacts/${{ steps.preparation.outputs.SAP_PARAMETERS }}
+            sapParams: "${{ github.workspace }}/WORKSPACES/SYSTEM/${{ inputs.sap_system_configuration_name }}/artifacts/${{ steps.preparation.outputs.SAP_PARAMETERS }}"
             sidHosts: ${{ steps.preparation.outputs.HOSTS }}
             extraParams: ${{ steps.preparation.outputs.NEW_PARAMETERS }}
             azureClientId: ${{ secrets.WL_ARM_CLIENT_ID }}
@@ -168,7 +168,7 @@
             userNameSecretName: ${{ steps.preparation.outputs.USERNAME_KEY_NAME }}
             vaultName: ${{ steps.preparation.outputs.VAULT_NAME }}
             parametersFolder: ${{ steps.preparation.outputs.FOLDER }}
-            sapParams: ${ github.workspace }/WORKSPACES/SYSTEM/${{ inputs.sap_system_configuration_name }}/artifacts/${{ steps.preparation.outputs.SAP_PARAMETERS }}
+            sapParams: "${{ github.workspace }}/WORKSPACES/SYSTEM/${{ inputs.sap_system_configuration_name }}/artifacts/${{ steps.preparation.outputs.SAP_PARAMETERS }}"
             sidHosts: ${{ steps.preparation.outputs.HOSTS }}
             extraParams: ${{ steps.preparation.outputs.NEW_PARAMETERS }}
             azureClientId: ${{ secrets.WL_ARM_CLIENT_ID }}
