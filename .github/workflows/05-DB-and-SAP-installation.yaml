@@ -135,10 +135,8 @@
             EXTRA_PARAMETERS: ${{ inputs.EXTRA_PARAMS }}
 
         - name: Parameter Validation
-          run: |
-            cd ${SAP_AUTOMATION_REPO_PATH}
-            deploy/automation/05-DB-and-SAP-installation/05-run-ansible.sh
-          env:
+          uses: ./.github/actions/run-ansible
+          with:
             displayName: "Parameter validation"
             ansibleFilePath: ${{ env.SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/playbook_00_validate_parameters.yaml
             ansibleConfigPath: ${{ env.SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/ansible.cfg
@@ -159,10 +157,8 @@
         
         - name: Core OS Configuration
           if: ${{ github.event.inputs.base_os_configuration == 'true' }}
-          run: |
-            cd ${SAP_AUTOMATION_REPO_PATH}
-            deploy/automation/05-DB-and-SAP-installation/05-run-ansible.sh
-          env:
+          uses: ./.github/actions/run-ansible
+          with:
             displayName: "Operating System Configuration"
             ansibleFilePath: ${{ env.SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/playbook_01_os_base_config.yaml
             ansibleConfigPath: ${{ env.SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/ansible.cfg
