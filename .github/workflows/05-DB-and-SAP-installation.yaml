@@ -138,7 +138,7 @@
           uses: ./.github/actions/run-ansible
           with:
             displayName: "Parameter validation"
-            ansibleFilePath: ${{ env.SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/playbook_00_validate_parameters.yaml
+            ansibleFilePath: "${{ env.SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/playbook_00_validate_parameters.yaml"
             ansibleConfigPath: ${{ env.SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/ansible.cfg
             secretName: ${{ steps.preparation.outputs.SSH_KEY_NAME }}
             passwordSecretName: ${{ steps.preparation.outputs.PASSWORD_KEY_NAME }}
