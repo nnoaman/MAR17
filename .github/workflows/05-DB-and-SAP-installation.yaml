@@ -153,7 +153,7 @@
             azureTenantId: ${{ secrets.WL_ARM_TENANT_ID }}
             azureSubscriptionId: ${{ secrets.WL_ARM_SUBSCRIPTION_ID }}
             #USE_MSI: ${{ env.USE_MSI }}
-            CONTROL_PLANE_SUBSCRIPTION_ID: ${{ secrets.CP_ARM_SUBSCRIPTION_ID }}
+            controlPlaneSubscriptionId: ${{ secrets.CP_ARM_SUBSCRIPTION_ID }}
         
         - name: Core OS Configuration
           if: ${{ github.event.inputs.base_os_configuration == 'true' }}
@@ -175,4 +175,4 @@
             azureTenantId: ${{ secrets.WL_ARM_TENANT_ID }}
             azureSubscriptionId: ${{ secrets.WL_ARM_SUBSCRIPTION_ID }}
             #USE_MSI: ${{ env.USE_MSI }}
-            CONTROL_PLANE_SUBSCRIPTION_ID: ${{ secrets.CP_ARM_SUBSCRIPTION_ID }}
+            controlPlaneSubscriptionId: ${{ secrets.CP_ARM_SUBSCRIPTION_ID }}
