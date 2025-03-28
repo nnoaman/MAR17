@@ -140,8 +140,8 @@
             deploy/automation/05-DB-and-SAP-installation/05-run-ansible.sh
           env:
             displayName: "Parameter validation"
-            ansibleFilePath: ${{ SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/playbook_00_validate_parameters.yaml
-            ansibleConfigPath: ${{ SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/ansible.cfg
+            ansibleFilePath: ${{ env.SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/playbook_00_validate_parameters.yaml
+            ansibleConfigPath: ${{ env.SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/ansible.cfg
             secretName: ${{ steps.preparation.outputs.SSH_KEY_NAME }}
             passwordSecretName: ${{ steps.preparation.outputs.PASSWORD_KEY_NAME }}
             userNameSecretName: ${{ steps.preparation.outputs.USERNAME_KEY_NAME }}
@@ -164,8 +164,8 @@
             deploy/automation/05-DB-and-SAP-installation/05-run-ansible.sh
           env:
             displayName: "Operating System Configuration"
-            ansibleFilePath: ${{ SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/playbook_01_os_base_config.yaml
-            ansibleConfigPath: ${{ SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/ansible.cfg
+            ansibleFilePath: ${{ env.SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/playbook_01_os_base_config.yaml
+            ansibleConfigPath: ${{ env.SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/ansible.cfg
             secretName: ${{ steps.preparation.outputs.SSH_KEY_NAME }}
             passwordSecretName: ${{ steps.preparation.outputs.PASSWORD_KEY_NAME }}
             userNameSecretName: ${{ steps.preparation.outputs.USERNAME_KEY_NAME }}
