@@ -122,6 +122,7 @@
             cd ${SAP_AUTOMATION_REPO_PATH}
             deploy/automation/05-DB-and-SAP-installation/05-DB-and-SAP-installation-prepare.sh
             echo "SAP_AUTOMATION_REPO_PATH=${SAP_AUTOMATION_REPO_PATH}" >> $GITHUB_ENV
+            echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE" >> $GITHUB_ENV
           env:
             APP_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
             SCRIPT_PATH: ./sap-automation/deploy/pipelines/templates/*.sh
@@ -146,7 +147,7 @@
             userNameSecretName: ${{ steps.preparation.outputs.USERNAME_KEY_NAME }}
             vaultName: ${{ steps.preparation.outputs.VAULT_NAME }}
             parametersFolder: ${{ steps.preparation.outputs.FOLDER }}
-            sapParams: "${{ github.workspace }}/WORKSPACES/SYSTEM/${{ inputs.sap_system_configuration_name }}/artifacts/${{ steps.preparation.outputs.SAP_PARAMETERS }}"
+            sapParams: "${{ env.GITHUB_WORKSPACE }}/WORKSPACES/SYSTEM/${{ inputs.sap_system_configuration_name }}/artifacts/${{ steps.preparation.outputs.SAP_PARAMETERS }}"
             sidHosts: ${{ steps.preparation.outputs.HOSTS }}
             extraParams: ${{ steps.preparation.outputs.NEW_PARAMETERS }}
             azureClientId: ${{ secrets.WL_ARM_CLIENT_ID }}
@@ -168,7 +169,7 @@
             userNameSecretName: ${{ steps.preparation.outputs.USERNAME_KEY_NAME }}
             vaultName: ${{ steps.preparation.outputs.VAULT_NAME }}
             parametersFolder: ${{ steps.preparation.outputs.FOLDER }}
-            sapParams: "${{ github.workspace }}/WORKSPACES/SYSTEM/${{ inputs.sap_system_configuration_name }}/artifacts/${{ steps.preparation.outputs.SAP_PARAMETERS }}"
+            sapParams: "${{ env.GITHUB_WORKSPACE }}/WORKSPACES/SYSTEM/${{ inputs.sap_system_configuration_name }}/artifacts/${{ steps.preparation.outputs.SAP_PARAMETERS }}"
             sidHosts: ${{ steps.preparation.outputs.HOSTS }}
             extraParams: ${{ steps.preparation.outputs.NEW_PARAMETERS }}
             azureClientId: ${{ secrets.WL_ARM_CLIENT_ID }}
