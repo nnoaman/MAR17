@@ -138,7 +138,7 @@
           run: |
             cd ${SAP_AUTOMATION_REPO_PATH}
             deploy/automation/05-DB-and-SAP-installation/05-run-ansible.sh
-          with:
+          env:
             displayName: "Parameter validation"
             ansibleFilePath: ${{ SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/playbook_00_validate_parameters.yaml
             ansibleConfigPath: ${{ SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/ansible.cfg
@@ -162,7 +162,7 @@
           run: |
             cd ${SAP_AUTOMATION_REPO_PATH}
             deploy/automation/05-DB-and-SAP-installation/05-run-ansible.sh
-          with:
+          env:
             displayName: "Operating System Configuration"
             ansibleFilePath: ${{ SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/playbook_01_os_base_config.yaml
             ansibleConfigPath: ${{ SAP_AUTOMATION_REPO_PATH }}/deploy/ansible/ansible.cfg
