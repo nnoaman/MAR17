@@ -121,6 +121,7 @@
           run: |
             cd ${SAP_AUTOMATION_REPO_PATH}
             deploy/automation/05-DB-and-SAP-installation/05-DB-and-SAP-installation-prepare.sh
+            echo "SAP_AUTOMATION_REPO_PATH=${SAP_AUTOMATION_REPO_PATH}" >> $GITHUB_ENV
           env:
             APP_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
             SCRIPT_PATH: ./sap-automation/deploy/pipelines/templates/*.sh
