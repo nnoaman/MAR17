@@ -136,6 +136,16 @@
             APP_CONFIGURATION_NAME: ${{ vars.APP_CONFIGURATION_NAME }}
             EXTRA_PARAMETERS: ${{ inputs.EXTRA_PARAMS }}
 
+        - name: Install Ansible Collections
+          run: |
+            ansible-galaxy collection install ansible.windows --force
+            ansible-galaxy collection install ansible.posix --force
+            ansible-galaxy collection install ansible.utils --force
+            ansible-galaxy collection install ansible.netcommon:5.1.2 --force
+            ansible-galaxy collection install community.windows --force
+            ansible-galaxy collection install community.general --force
+            ansible-galaxy collection install microsoft.ad --force
+
         - name: Parameter Validation
           uses: ./.github/actions/run-ansible
           with:
